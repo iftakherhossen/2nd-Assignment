@@ -8,6 +8,8 @@ fetch("https://www.thesportsdb.com/api/v1/json/3/searchplayers.php?p=")
     });
 
 const alertBox = document.getElementById("showing-results");
+const maxAlertBox = document.getElementById("maximum-alert");
+let totalPlayers = 0;
 
 const handleSearch = () => {
     const playerName = document.getElementById("search-input").value;
@@ -52,7 +54,7 @@ const handleShowDetails = (id) => {
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header d-flex justify-content-between">
-                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Details of <strong>${info.strPlayer}</strong></h1>
+                                    <h1 class="modal-title fs-5" id="staticBackdropLabel">Details of <strong class="text-paste fw-bolder">${info.strPlayer}</strong></h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -66,6 +68,7 @@ const handleShowDetails = (id) => {
                                     <p class="card-text mb-2"><strong>Status:</strong> ${info.strStatus}</p>
                                     <p class="card-text mb-2"><strong>Country:</strong> ${info.strNationality}</p>                        
                                     <p class="card-text mb-2"><strong>Gender:</strong> ${info.strGender}</p>                        
+                                    <p class="card-text mb-2"><strong>Salary:</strong> ${info.strWage}</p>                        
                                     <p class="card-text mb-2"><strong>Description:</strong> ${info.strDescriptionEN}</p>                        
                                     <hr />
                                     <div class="d-flex justify-content-between mt-2">
@@ -101,6 +104,10 @@ const handleShowDetails = (id) => {
     }
 };
 
+const getFirstTenWords = (text) => {
+    const words = text.split(' ');
+    return words.slice(0, 10).join(' ');
+};
 
 const displayData = (playerData, playerName) => {
     const container = document.getElementById("player-container");
@@ -128,7 +135,9 @@ const displayData = (playerData, playerName) => {
                         <p class="card-text mb-1"><strong>Position:</strong> ${data.strPosition}</p>
                         <p class="card-text mb-1"><strong>Team:</strong> ${data.strTeam}</p>
                         <p class="card-text mb-1"><strong>Country:</strong> ${data.strNationality}</p>                        
-                        <p class="card-text"><strong>Gender:</strong> ${data.strGender}</p>                        
+                        <p class="card-text mb-1"><strong>Gender:</strong> ${data.strGender}</p>                        
+                        <p class="card-text mb-1"><strong>Salary:</strong> ${data.strWage}</p>                        
+                        <p class="card-text"><strong>Description:</strong> ${getFirstTenWords(data.strDescriptionEN)}</p>                        
                         <div class="d-flex justify-content-center align-items-center mb-2">
                             <a href=${data.strFacebook} class="text-decoration-none">
                                 <i class="text-paste fa-brands fa-facebook px-1 fs-5"></i>
@@ -155,8 +164,6 @@ const displayData = (playerData, playerName) => {
     
 };
 
-let totalPlayers = 0;
-
 const handleAddToGroup = (name, photo, gender, button) => {
     if (totalPlayers < 11) {
         const cart = document.getElementById("cart-data");
@@ -178,27 +185,44 @@ const handleAddToGroup = (name, photo, gender, button) => {
         document.getElementById("total-males").innerText = totalMales;
         document.getElementById("total-females").innerText = totalFemales;
 
-        const tr = document.createElement("tr");
+        const div = document.createElement("div");
 
-        tr.innerHTML = `
-            <td class="d-flex align-items-center gap-2 px-3">
-                <div>
-                    <img src="${photo}" alt="${name}" class="cart-img" />
+        div.innerHTML = `
+            <div class="col-6">
+                <div class="d-flex align-items-center gap-2 px-3">
+                    <div class="cart-item">
+                        <img src="${photo}" alt="${name}" class="cart-img" />
+                    </div>
+                    <h6 class="fw-bold my-auto">${name}</h6>
                 </div>
-                <h6 class="fw-bold my-auto">${name}</h6>
-            </td>
+            </div>
         `;
 
-        cart.appendChild(tr);
+        cart.appendChild(div);
 
         button.disabled = true;
 
         if (totalPlayers === 11) {
             const allButtons = document.querySelectorAll(".add-to-group-btn");
+            const div = document.createElement("div"); 
+
             allButtons.forEach(btn => {
                 btn.disabled = true;
                 btn.classList.add("disable")
-            });
-        }
+            });                           
+            div.innerHTML = `
+                <div class="alert alert-danger mb-0" role="alert">
+                    You have already added 11 players, You can not add more!
+                <div>
+            `;
+            window.alert("You have already added 11 players, You can not add more!")
+            maxAlertBox.appendChild(div);
+        }        
     }
 };
+
+document.getElementById("search-input").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        handleSearch();
+    }
+});

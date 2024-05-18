@@ -32,6 +32,9 @@ body {
     border-radius: 100%;
     margin-top: 1.2rem;
 }
+.cart-item {
+    height: 40px;
+}
 .cart-img {
     height: 35px;
     width: 35px;
@@ -42,7 +45,8 @@ body {
     cursor: not-allowed !important;
 }
 .cart {
-    position: fixed;
+    position: sticky;
+    top: 90px;
     background-color: white;
     width: 330px;
 }
