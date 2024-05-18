@@ -1,0 +1,77 @@
+body {
+    font-family: "Libre Baskerville", serif !important;
+}
+.logo {
+    height: 30px;
+}
+.bg-paste {
+    background-color: #61777F;
+}
+.text-paste {
+    color: #61777F;
+}
+.nav-link {
+    font-size: 18px;
+}
+.search-wrapper {
+    width: 70%;
+    margin: 0 auto;
+}
+.search-btn {
+    width: 50px;
+    background-color: white;
+}
+.search-btn:hover {
+    background-color: #61777F;
+    color: white;
+}
+.card-img {
+    width: 120px;
+    height: 120px;
+    border: 1px solid black;
+    border-radius: 100%;
+    margin-top: 1.2rem;
+}
+.cart-img {
+    height: 35px;
+    width: 35px;
+    border: 1px solid black;
+    border-radius: 100%;
+}
+.disable {
+    cursor: not-allowed !important;
+}
+.cart {
+    position: fixed;
+    background-color: white;
+    width: 330px;
+}
+.capitalize {
+    text-transform: capitalize;
+}
+main {
+    min-height: 650px;
+}
+
+@media screen and (max-width: 888px) {
+    .search-wrapper {
+        width: 100%;
+    }
+}
+@media screen and (max-width: 995px) {
+    .cart {
+        background-color: white;
+        position: sticky;
+        width: 100%;
+    }
+}
+@media screen and (min-width: 996px) and (max-width: 1195px) {
+    .cart {
+        width: 240px;
+    }
+}
+@media screen and (min-width: 1196px) and (max-width: 1400px) {
+    .cart {
+        width: 280px;
+    }
+}
